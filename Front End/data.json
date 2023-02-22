@@ -1,0 +1,47 @@
+{
+    "CircrularKnit": {
+        "PLM": {
+            "EPI" : "",
+            "PPI" : ""
+        },
+        "OCS": {
+            "EPI" : "",
+            "PPI" : ""
+        },
+        "Yarn": [
+            {
+                "Material" : "",
+                "Country" : ""
+            },
+            {
+                "Material" : "",
+                "Country" : ""
+            }
+        ],
+        "Cost Profile": {}
+    },
+    "Outerwear": {
+        "PLM": {},
+        "OCS": {},
+        "Yarn": [],
+        "Cost Profile": {}
+    },
+    "Denim": {
+        "PLM": {},
+        "OCS": {},
+        "Yarn": [],
+        "Cost Profile": {}
+    },
+    "FlatKnit": {
+        "PLM": {},
+        "OCS": {},
+        "Yarn": [],
+        "Cost Profile": {}
+    },
+    "Woven": {
+        "PLM": {},
+        "OCS": {},
+        "Yarn": [],
+        "Cost Profile": {}
+    }
+}
