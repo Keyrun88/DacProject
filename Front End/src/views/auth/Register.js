@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -14,9 +14,51 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { cilEnvelopeClosed, cilInfo, cilLockLocked, cilUser } from '@coreui/icons'
+import { createUser } from 'src/services/UserService'
+import Swal from 'sweetalert2'
 
 const Register = () => {
+
+  const [userData, setUserData] = useState({
+    firstName : '',
+    lastName : '',
+    email : '',
+    password : '',
+    question : '',
+    answer : ''
+  })
+  const navigate = useNavigate()
+
+  const onSave = () => {
+    if (!userData.firstName || !userData.lastName || !userData.email || !userData.password || !userData.question || !userData.answer ) {
+      Swal.fire({
+        title: "Warning",
+        text: "All fields are mandetory",
+        icon: "warning",
+        confirmButtonColor: "#006f95"          
+      })
+      return
+    }
+    createUser(userData).then(rs => {
+      Swal.fire({
+        title: "Success",
+        text: "User account created successfully!",
+        icon: "success",
+        confirmButtonColor: "#006f95"          
+      }).then(x => {
+        navigate("/login")
+      })
+    }).catch(err => {
+      Swal.fire({
+        title: "Failed",
+        text: "Failed to create user please try again!",
+        icon: "error",
+        confirmButtonColor: "#006f95"          
+      })
+    })
+  }
+
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -28,13 +70,32 @@ const Register = () => {
                   <CForm>
                     <h1>Register</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
+                    <CRow>
+                      <CCol md={6}>
+                        <CInputGroup className="mb-3">
+                          <CInputGroupText>
+                            <CIcon icon={cilUser} />
+                          </CInputGroupText>
+                          <CFormInput placeholder="First Name" autoComplete="First Name" defaultValue={userData.firstName} onChange={e => setUserData({...userData, firstName : e.target.value})}/>
+                        </CInputGroup>
+                      </CCol>
+                      <CCol md={6} className="ml-0 pl-0">
+                        <CInputGroup>
+                          <CFormInput placeholder="Last Name" autoComplete="Last Name" defaultValue={userData.lastName} onChange={e => setUserData({...userData, lastName : e.target.value})}/>
+                        </CInputGroup>
+                      </CCol>
+                    </CRow>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
-                        <CIcon icon={cilUser} />
+                        <CIcon icon={cilEnvelopeClosed} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        type="email"
+                        placeholder="Email"
+                        defaultValue={userData.email} onChange={e => setUserData({...userData, email : e.target.value})}
+                      />
                     </CInputGroup>
-                    <CInputGroup className="mb-4">
+                    <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
@@ -42,11 +103,32 @@ const Register = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        defaultValue={userData.password} onChange={e => setUserData({...userData, password : window.btoa(e.target.value)})}
+                      />
+                    </CInputGroup>
+                    <CInputGroup className="mb-3">
+                      <CInputGroupText>
+                        <CIcon icon={cilInfo} />
+                      </CInputGroupText>
+                      <CFormInput
+                        type="text"
+                        placeholder="Security Question"
+                        defaultValue={userData.question} onChange={e => setUserData({...userData, question : e.target.value})}
+                      />
+                    </CInputGroup>
+                    <CInputGroup className="mb-3">
+                      <CInputGroupText>
+                        <CIcon icon={cilInfo} />
+                      </CInputGroupText>
+                      <CFormInput
+                        type="text"
+                        placeholder="Answer"
+                        defaultValue={userData.answer} onChange={e => setUserData({...userData, answer : e.target.value})}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" className="px-4" onClick={onSave}>
                           Register
                         </CButton>
                       </CCol>

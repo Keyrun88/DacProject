@@ -25,4 +25,54 @@ public class UsersDAOImpl implements UsersDAO {
 	
 	private SimpleJdbcCall jdbcCall;
 
+	@Override
+	public Object createUser(Users input) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_createUser");
+
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inFirstName", input.getFirstName())
+				.addValue("inLastName", input.getLastName())
+				.addValue("inEmail", input.getEmail())
+				.addValue("inPassword", input.getPassword())
+				.addValue("inSecurityQuestion", input.getQuestion())
+				.addValue("inAnswer", input.getAnswer());
+		
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
+
+	@Override
+	public Object login(String email, String password, String type) throws Exception {
+		
+		if (type.equals("user")) {
+			jdbcCall = new SimpleJdbcCall(template)
+					.withSchemaName("metcanteensys").withProcedureName("c_logInUser");	
+		} else {
+			jdbcCall = new SimpleJdbcCall(template)
+					.withSchemaName("metcanteensys").withProcedureName("c_logInCanteenManager");
+		}
+		
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inEmail", email)
+				.addValue("inPass", password);
+		
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
+
+	@Override
+	public Object forgotPassword(String email) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_forgotPassword");
+
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inEmail", email);
+				
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
 }

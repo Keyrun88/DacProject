@@ -1,6 +1,7 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
+  cilAccountLogout,
   cilBalanceScale,
   cilDrop,
   cilInfo,
@@ -10,17 +11,38 @@ import {
 } from '@coreui/icons'
 import { CNavItem } from '@coreui/react'
 
-const _nav = [
+const logout = () => {
+  localStorage.clear();
+  Navigate('/login')
+}
+
+export const _userNav = [
   {
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    // badge: {
-    //   color: 'info',
-    //   text: 'NEW',
-    // },
+  },
+  {
+    component: CNavItem,
+    name: 'Logout',
+    to: '/logout',
+    icon: <CIcon icon={cilAccountLogout} customClassName="nav-icon" />,
   }
 ]
 
-export default _nav
+export const _managerNav = [
+  {
+    component: CNavItem,
+    name: 'Admin Dashboard',
+    to: '/canteen-manager',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Logout',
+    to: '/logout',
+    icon: <CIcon icon={cilAccountLogout} customClassName="nav-icon" />,
+  }
+]
+

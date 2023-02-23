@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.METCanteen.Model.Response;
 import com.api.METCanteen.Model.Users;
 import com.api.METCanteen.Service.UsersService;
 
@@ -21,5 +22,33 @@ public class UsersController {
 	@Autowired
 	UsersService userService;
 	
-	
+	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
+	public ResponseEntity<Object> createUser(@RequestBody Users param) throws Exception {
+		try {
+			Object res = userService.createUser(param);
+			return Response.generateResponse("User created successfully!", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ResponseEntity<Object> login(String email, String password, String type) throws Exception {
+		try {
+			Object res = userService.login(email, password, type);
+			return Response.generateResponse("", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
+
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+	public ResponseEntity<Object> forgotPassword(String email) throws Exception {
+		try {
+			Object res = userService.forgotPassword(email);
+			return Response.generateResponse("!", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
 }
