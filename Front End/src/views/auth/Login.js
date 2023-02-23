@@ -77,16 +77,28 @@ const Login = () => {
                       </CInputGroup>
                       <CRow>
                         <CCol xs={12} className="d-flex justify-content-between">
-                            <CCol xs={7}>
-                              <CButton color="primary" className="px-4" onClick={onLogin}>
-                                Login
-                              </CButton>
-                            </CCol>
-                            <CCol xs={5} className="d-flex justify-content-end">
-                              <CButton color="link" className="px-0" onClick={() => type === 'user' ? setType('canteenManager') : setType('user')}>
-                                login as {type === 'user' ? 'Canteen Mananger' : 'User'}
-                              </CButton>
-                            </CCol>
+                          <CCol xs={7}>
+                            <CButton color="primary" className="px-4" onClick={onLogin}>
+                              Login
+                            </CButton>
+                          </CCol>
+                          <CCol xs={5} className="d-flex justify-content-end">
+                            <CButton color="link" className="px-0" onClick={() => type === 'user' ? setType('canteenManager') : setType('user')}>
+                              Forgot Password
+                            </CButton>
+                          </CCol>
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol xs={12} className="d-flex justify-content-center p-0 m-0">
+                          <CButton color="link" className="px-0" onClick={() => type === 'user' ? setType('canteenManager') : setType('user')}>
+                            Login as {type === 'user' ? 'Canteen Mananger' : 'User'}
+                          </CButton>
+                        </CCol>
+                        <CCol xs={12} className="d-flex justify-content-center p-0 m-0">
+                        Are you a new user ? &nbsp;<CButton color="link" className="p-0 m-0" >
+                            Create Account
+                          </CButton>
                         </CCol>
                       </CRow>
                     </div>

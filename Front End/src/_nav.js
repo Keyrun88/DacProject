@@ -4,6 +4,7 @@ import {
   cilAccountLogout,
   cilBalanceScale,
   cilDrop,
+  cilFastfood,
   cilInfo,
   cilPeople,
   cilShareAlt,
@@ -28,6 +29,12 @@ export const _userNav = [
     name: 'Logout',
     to: '/logout',
     icon: <CIcon icon={cilAccountLogout} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Order Food',
+    to: '/order-food',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
   }
 ]
 
