@@ -86,12 +86,12 @@ const profile = () => {
                           <CInputGroupText>
                             <CIcon icon={cilUser} />
                           </CInputGroupText>
-                          <CFormInput placeholder="First Name" value="suraj" autoComplete="First Name" defaultValue={userData.firstName} onChange={e => setUserData({ ...userData, firstName: e.target.value })} />
+                          <CFormInput placeholder="First Name" value="abc" autoComplete="First Name" defaultValue={userData.firstName} onChange={e => setUserData({ ...userData, firstName: e.target.value })} />
                         </CInputGroup>
                       </CCol>
                       <CCol md={6} className="ml-0 pl-0">
                         <CInputGroup>
-                          <CFormInput placeholder="Last Name" value="Jadhav" autoComplete="Last Name" defaultValue={userData.lastName} onChange={e => setUserData({ ...userData, lastName: e.target.value })} />
+                          <CFormInput placeholder="Last Name" value="pqr" autoComplete="Last Name" defaultValue={userData.lastName} onChange={e => setUserData({ ...userData, lastName: e.target.value })} />
                         </CInputGroup>
                       </CCol>
                     </CRow>
@@ -104,7 +104,7 @@ const profile = () => {
                       <CFormInput
                         type="email"
                         placeholder="Email"
-                        value="suraj@gmail.com"
+                        value="abc@gmail.com"
                         defaultValue={userData.email} onChange={e => setUserData({ ...userData, email: e.target.value })}
                       />
                     </CInputGroup>
