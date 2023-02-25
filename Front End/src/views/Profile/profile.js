@@ -62,9 +62,9 @@ const profile = () => {
                     <div className="min-vh-200">
                       <CImage align="center" rounded src="/images/abc.jpg" width={200} height={200} />
 
-                      <b>Name</b> <p>Suraj</p>
-                      <b>Surname</b> <p>Jadhav</p>
-                      <b>Gmail</b> <p>suraj@gmail.com</p>
+                      <b>Name</b> <p>abc</p>
+                      <b>Surname</b> <p>pqr</p>
+                      <b>Gmail</b> <p>abc@gmail.com</p>
                     </div>
                   </CForm>
                 </CCardBody>
