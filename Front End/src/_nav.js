@@ -35,6 +35,20 @@ export const _userNav = [
     name: 'Order Food',
     to: '/order-food',
     icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavItem,
+    name: 'History',
+    to: '/history',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavItem,
+    name: 'Profile',
+    to: '/profile',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
   }
 ]
 
