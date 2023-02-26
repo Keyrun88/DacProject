@@ -6,6 +6,7 @@ const OrderFood = React.lazy(() => import('./views/orderFood/OrderFood'))
 const Logout = React.lazy(() => import('./views/auth/Logout'))
 const history = React.lazy(() => import('./views/History/history'))
 const profile = React.lazy(() => import('./views/Profile/profile'))
+const checkout = React.lazy(() => import('./views/checkout/checkout'))
 
 
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
   { path: '/logout', name: 'Logout', element: Logout},
   { path: '/History', name: 'History', element: history},
   { path: '/Profile', name: 'Profile', element: profile },
+  { path: '/checkout', name: 'checkout', element: checkout },
 
 ]
 

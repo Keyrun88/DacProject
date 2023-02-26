@@ -49,6 +49,13 @@ export const _userNav = [
     name: 'Profile',
     to: '/profile',
     icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavItem,
+    name: 'checkout',
+    to: '/checkout',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
   }
 ]
 
