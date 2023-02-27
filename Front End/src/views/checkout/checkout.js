@@ -19,7 +19,13 @@ return <>
             <CCol sm="8">
             Tea
             <CCol>
-            Quantity 1
+            <body>
+    <div class="btn-group mr-1" role="group" aria-label="Second group" >
+        <button type="button" class="btn btn-secondary incere" >+</button>
+        <button type="button" class="btn btn-secondary" >select</button>
+        <button type="button" class="btn btn-secondary decre">-</button>
+      </div>
+</body>
             </CCol>
             </CCol>
             </CRow>
