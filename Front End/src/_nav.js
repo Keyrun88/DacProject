@@ -35,6 +35,30 @@ export const _userNav = [
     name: 'Order Food',
     to: '/order-food',
     icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Canteen Orders',
+    to: '/canteen-orders',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Canteen Menu',
+    to: '/canteen-menu',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Canteen Discount',
+    to: '/canteen-discount',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Canteen Feedback',
+    to: '/canteen-feedback',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
   }
 ]
 

@@ -1,0 +1,58 @@
+TABLES
+
+create database metcanteensys;
+use metcanteensys;
+
+create table FoodItems(
+ItemID int(11) auto_increment primary key,
+Name varchar(100),
+Category varchar(100),
+Price int,
+ImageURL varchar(100));
+
+
+
+create table Discount(
+DiscountID int auto_increment primary key,
+StudentDiscount float,
+StaffDiscount float);
+
+
+create table Feedbacks(
+FeedbackID int auto_increment primary key,
+Feedback varchar(100),
+Rating int,
+OrderID int,
+constraint FK_Feedbacks_Orders foreign key (OrderID) references Orders (OrderID),
+constraint chk_rating check (Rating>=0 AND Rating<=5));
+
+
+
+
+create table Orders(
+OrderID int auto_increment primary key,
+FoodItems varchar(100) not null,
+BillAmount int not null,
+DateAndTime datetime not null,
+DiscountID int not null,
+UserID int not null,
+constraint FK_Orders_Discount foreign key (DiscountID) references Discount (DiscountID),
+constraint FK_Orders_users foreign key (UserID) references users (ID));
+
+
+
+
+CREATE TABLE `users` (
+  `firstName` varchar(100) DEFAULT NULL,
+  `lastName` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `ID` int(11) NOT NULL,
+  `securityQ` varchar(100) DEFAULT NULL,
+  `answer` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `isCanteenManager` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 
+
+
+
+
