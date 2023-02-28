@@ -8,6 +8,10 @@ const CanteenManagerOrders = React.lazy(() => import('./views/CanteenManager/Ord
 const CanteenMenu = React.lazy(() => import('./views/CanteenManager/Menu'))
 const CanteenDiscount = React.lazy(() => import('./views/CanteenManager/Discount'))
 const CanteenFeedback = React.lazy(() => import('./views/CanteenManager/Feedback'))
+const history = React.lazy(() => import('./views/History/history'))
+const profile = React.lazy(() => import('./views/Profile/profile'))
+const checkout = React.lazy(() => import('./views/checkout/checkout'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -19,6 +23,11 @@ const routes = [
   { path: '/canteen-discount', name: 'Canteen Discount', element: CanteenDiscount },
   { path: '/canteen-feedback', name: 'Canteen Feedback', element: CanteenFeedback },
   { path: '/logout', name: 'Logout', element: Logout}
+  { path: '/logout', name: 'Logout', element: Logout},
+  { path: '/History', name: 'History', element: history},
+  { path: '/Profile', name: 'Profile', element: profile },
+  { path: '/checkout', name: 'checkout', element: checkout },
+
 ]
 
 export default routes

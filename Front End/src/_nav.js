@@ -59,6 +59,26 @@ export const _userNav = [
     name: 'Canteen Feedback',
     to: '/canteen-feedback',
     icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'History',
+    to: '/history',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavItem,
+    name: 'Profile',
+    to: '/profile',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavItem,
+    name: 'checkout',
+    to: '/checkout',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
   }
 ]
 
