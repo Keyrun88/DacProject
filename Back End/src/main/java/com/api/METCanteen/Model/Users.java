@@ -42,6 +42,11 @@ public class Users {
 	public String getLastName() {
 		return LastName;
 	}
+	@Override
+	public String toString() {
+		return "Users [FirstName=" + FirstName + ", LastName=" + LastName + ", Email=" + Email + ", Password="
+				+ Password + ", Question=" + Question + ", Answer=" + Answer + "]";
+	}
 	public void setLastName(String lastName) {
 		LastName = lastName;
 	}
