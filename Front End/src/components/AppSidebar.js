@@ -37,7 +37,7 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          {user?.isCanteenManager ? <AppSidebarNav items={_managerNav} /> : <AppSidebarNav items={_userNav} />}
+          {user?.IsCanteenManager ? <AppSidebarNav items={_managerNav} /> : <AppSidebarNav items={_userNav} />}
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler

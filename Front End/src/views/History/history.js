@@ -1,8 +1,7 @@
 import { CContainer,CCol,CRow,CCard,CCardHeader,CForm,CCardBody,CFormLabel,CButton } from "@coreui/react"
 
 const history = () => {
-    return <>
-      
+    return <> 
       <CCard>
             <CCardHeader>History</CCardHeader>
             <CCardBody>

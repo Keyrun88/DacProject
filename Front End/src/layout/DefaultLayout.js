@@ -7,9 +7,9 @@ const DefaultLayout = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // if (!localStorage.getItem("user")) {
-    //   navigate("/login")
-    // }   
+    if (!localStorage.getItem("user")) {
+      navigate("/login")
+    }   
   }, [])
 
   return (

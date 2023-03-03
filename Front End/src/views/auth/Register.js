@@ -8,7 +8,9 @@ import {
   CCol,
   CContainer,
   CForm,
+  CFormCheck,
   CFormInput,
+  CFormLabel,
   CInputGroup,
   CInputGroupText,
   CRow,
@@ -17,35 +19,42 @@ import CIcon from '@coreui/icons-react'
 import { cilEnvelopeClosed, cilInfo, cilLockLocked, cilUser } from '@coreui/icons'
 import { createUser } from 'src/services/UserService'
 import Swal from 'sweetalert2'
+import logo from 'src/assets/images/Logo.png'
+import { AppFooter } from 'src/components'
 
 const Register = () => {
 
   const [userData, setUserData] = useState({
-    firstName : '',
-    lastName : '',
-    email : '',
-    password : '',
-    question : '',
-    answer : ''
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    question: '',
+    answer: ''
   })
+  const [accType, setAccType] = useState("student")
+
   const navigate = useNavigate()
 
   const onSave = () => {
-    if (!userData.firstName || !userData.lastName || !userData.email || !userData.password || !userData.question || !userData.answer ) {
+    if (!userData.firstName || !userData.lastName || !userData.email || !userData.password || !userData.question || !userData.answer) {
       Swal.fire({
         title: "Warning",
         text: "All fields are mandetory",
         icon: "warning",
-        confirmButtonColor: "#006f95"          
+        confirmButtonColor: "#006f95"
       })
       return
     }
-    createUser(userData).then(rs => {
+    const obj = userData
+    obj['isStaffMember'] = accType === 'staff'
+    obj['isCanteenManager'] = accType === 'canteenManager'
+    createUser(obj).then(rs => {
       Swal.fire({
         title: "Success",
         text: "User account created successfully!",
         icon: "success",
-        confirmButtonColor: "#006f95"          
+        confirmButtonColor: "#006f95"
       }).then(x => {
         navigate("/login")
       })
@@ -54,7 +63,7 @@ const Register = () => {
         title: "Failed",
         text: "Failed to create user please try again!",
         icon: "error",
-        confirmButtonColor: "#006f95"          
+        confirmButtonColor: "#006f95"
       })
     })
   }
@@ -63,98 +72,101 @@ const Register = () => {
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={8}>
+          <CCol md={6}>
             <CCardGroup>
-              <CCard className="p-4">
-                <CCardBody>
+              <CCard>
+                <CCardBody className='p-0 border border-5 border-primary'>
+                  <h2 className="text-center bg-primary text-white border border-4" style={{ "height": "50px" }}>Register</h2>
                   <CForm>
-                    <h1>Register</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
-                    <CRow>
-                      <CCol md={6}>
-                        <CInputGroup className="mb-3">
-                          <CInputGroupText>
-                            <CIcon icon={cilUser} />
-                          </CInputGroupText>
-                          <CFormInput placeholder="First Name" autoComplete="First Name" defaultValue={userData.firstName} onChange={e => setUserData({...userData, firstName : e.target.value})}/>
-                        </CInputGroup>
-                      </CCol>
-                      <CCol md={6} className="ml-0 pl-0">
-                        <CInputGroup>
-                          <CFormInput placeholder="Last Name" autoComplete="Last Name" defaultValue={userData.lastName} onChange={e => setUserData({...userData, lastName : e.target.value})}/>
-                        </CInputGroup>
-                      </CCol>
-                    </CRow>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilEnvelopeClosed} />
-                      </CInputGroupText>
-                      <CFormInput
-                        type="email"
-                        placeholder="Email"
-                        defaultValue={userData.email} onChange={e => setUserData({...userData, email : e.target.value})}
-                      />
-                    </CInputGroup>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilLockLocked} />
-                      </CInputGroupText>
-                      <CFormInput
-                        type="password"
-                        placeholder="Password"
-                        autoComplete="current-password"
-                        defaultValue={userData.password} onChange={e => setUserData({...userData, password : window.btoa(e.target.value)})}
-                      />
-                    </CInputGroup>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilInfo} />
-                      </CInputGroupText>
-                      <CFormInput
-                        type="text"
-                        placeholder="Security Question"
-                        defaultValue={userData.question} onChange={e => setUserData({...userData, question : e.target.value})}
-                      />
-                    </CInputGroup>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilInfo} />
-                      </CInputGroupText>
-                      <CFormInput
-                        type="text"
-                        placeholder="Answer"
-                        defaultValue={userData.answer} onChange={e => setUserData({...userData, answer : e.target.value})}
-                      />
-                    </CInputGroup>
-                    <CRow>
-                      <CCol xs={6}>
-                        <CButton color="primary" className="px-4" onClick={onSave}>
-                          Register
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
-                        </CButton>
-                      </CCol>
-                    </CRow>
+                    <img className="sidebar-brand-full p-3" src={logo} height="150px" width="100%" />
+                    <div className='px-5 pb-5'>
+                      <CRow>
+                        <CCol md={6}>
+                          <CInputGroup className="mb-3">
+                            <CInputGroupText>
+                              <CIcon icon={cilUser} />
+                            </CInputGroupText>
+                            <CFormInput placeholder="First Name" autoComplete="First Name" defaultValue={userData.firstName} onChange={e => setUserData({ ...userData, firstName: e.target.value })} />
+                          </CInputGroup>
+                        </CCol>
+                        <CCol md={6} className="ml-0 pl-0">
+                          <CInputGroup>
+                            <CFormInput placeholder="Last Name" autoComplete="Last Name" defaultValue={userData.lastName} onChange={e => setUserData({ ...userData, lastName: e.target.value })} />
+                          </CInputGroup>
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol md={6}>
+                          <CInputGroup className="mb-3">
+                            <CInputGroupText>
+                              <CIcon icon={cilEnvelopeClosed} />
+                            </CInputGroupText>
+                            <CFormInput
+                              type="email"
+                              placeholder="Email"
+                              defaultValue={userData.email} onChange={e => setUserData({ ...userData, email: e.target.value })}
+                            />
+                          </CInputGroup>
+                        </CCol>
+                        <CCol md={6}>
+                          <CInputGroup className="mb-3">
+                            <CFormInput
+                              type="password"
+                              placeholder="Password"
+                              autoComplete="current-password"
+                              defaultValue={userData.password} onChange={e => setUserData({ ...userData, password: window.btoa(e.target.value) })}
+                            />
+                          </CInputGroup>
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol md={6}>
+                          <CInputGroup className="mb-3">
+                            <CInputGroupText>
+                              <CIcon icon={cilInfo} />
+                            </CInputGroupText>
+                            <CFormInput
+                              type="text"
+                              placeholder="Security Question"
+                              defaultValue={userData.question} onChange={e => setUserData({ ...userData, question: e.target.value })}
+                            />
+                          </CInputGroup>
+                        </CCol>
+                        <CCol md={6}>
+                          <CInputGroup className="mb-3">
+                            <CFormInput
+                              type="text"
+                              placeholder="Answer"
+                              defaultValue={userData.answer} onChange={e => setUserData({ ...userData, answer: e.target.value })}
+                            />
+                          </CInputGroup>
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol md={12}>
+                          <CInputGroup className="mb-3">
+                            <CFormLabel className='d-block'>Create account as ? </CFormLabel>&nbsp;&nbsp;&nbsp;
+                            <CFormCheck inline type="radio" name="typeOfAcc" id="inlineCheckbox1" value="option1" label="Student" defaultChecked onClick={() => setAccType('student')}/>
+                            <CFormCheck inline type="radio" name="typeOfAcc" id="inlineCheckbox2" value="option2" label="Staff" onClick={() => setAccType('staff')}/>
+                            <CFormCheck inline type="radio" name="typeOfAcc" id="inlineCheckbox2" value="option2" label="Canteen Manager" onClick={() => setAccType('canteenManager')}/>
+                          </CInputGroup>
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol xs={6}>
+                          <CButton color="primary" className="px-4" onClick={onSave}>
+                            Register
+                          </CButton>
+                        </CCol>
+                        <CCol xs={6} className="d-flex justify-content-end">
+                          Already have account ? <CButton color="link" className="py-0 mb-4" onClick={() => navigate("/login")}>
+                            Login
+                          </CButton>
+                        </CCol>
+                      </CRow>
+                    </div>
                   </CForm>
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
+                  <AppFooter /> 
                 </CCardBody>
               </CCard>
             </CCardGroup>

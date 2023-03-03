@@ -17,4 +17,9 @@ public class DiscountServiceImpl implements DiscountService {
 	public Object getDiscount() throws Exception {
 		return discountDao.getDiscount();
 	}
+
+	@Override
+	public Object updateDiscount(String studentDiscount, String staffDiscount) throws Exception {
+		return discountDao.updateDiscount(studentDiscount, staffDiscount);
+	}
 }

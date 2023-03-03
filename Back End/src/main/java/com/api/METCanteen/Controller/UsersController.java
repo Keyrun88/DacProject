@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.METCanteen.Model.Response;
+import com.api.METCanteen.Model.UpdateUser;
 import com.api.METCanteen.Model.Users;
 import com.api.METCanteen.Service.UsersService;
 
@@ -31,11 +32,21 @@ public class UsersController {
 			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
 		}
 	}
+	
+	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
+	public ResponseEntity<Object> createUser(@RequestBody UpdateUser param) throws Exception {
+		try {
+			Object res = userService.updateUser(param);
+			return Response.generateResponse("User updated successfully!", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ResponseEntity<Object> login(String email, String password, String type) throws Exception {
+	public ResponseEntity<Object> login(String email, String password, Boolean isCanteenManager) throws Exception {
 		try {
-			Object res = userService.login(email, password, type);
+			Object res = userService.login(email, password, isCanteenManager);
 			return Response.generateResponse("", HttpStatus.OK, res);
 		} catch (Exception e) {
 			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);

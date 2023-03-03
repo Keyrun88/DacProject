@@ -31,11 +31,11 @@ const Login = () => {
 
   const onLogin = () => {
 
-    login(loginData.email, loginData.password, type).then(res => {
+    login(loginData.email, loginData.password, type !== "user").then(res => {
       if (res.data.length) {
         if (type === "user") {
           localStorage.setItem("user", JSON.stringify(res.data[0]))
-          navigate("/dashboard")
+          navigate("/order-food")
         } else {
           localStorage.setItem("user", JSON.stringify(res.data[0]))
           navigate("/canteen-manager")
@@ -51,6 +51,16 @@ const Login = () => {
     })
   }
 
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      if (JSON.parse(localStorage.getItem("user")).IsCanteenManager) {
+        navigate("/canteen-manager")
+      } else {
+        navigate("/order-food")
+      }
+    }
+  }, [])
+
   return (
     <div className="bg-primary-25 min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -59,7 +69,7 @@ const Login = () => {
             <CCardGroup>
               <CCard>
                 <CCardBody className='p-0 border border-5 border-primary'>
-                  <h2 className="text-center bg-primary text-white border border-4" style={{ "height": "50px" }}>Login {type !== 'user' ? 'as Canteen Manager' : 'as User'}</h2>
+                  <h2 className="text-center bg-primary text-white border border-4" style={{ "height": "50px" }}>Login {type !== 'user' ? 'as Canteen Manager' : 'as Student / Staff'}</h2>
                   <CForm>
                     <img className="sidebar-brand-full p-3" src={logo} height="150px" width="100%" />
                     <div className='px-5 pb-5'>
@@ -83,7 +93,7 @@ const Login = () => {
                             </CButton>
                           </CCol>
                           <CCol xs={5} className="d-flex justify-content-end">
-                            <CButton color="link" className="px-0" onClick={() => type === 'user' ? setType('canteenManager') : setType('user')}>
+                            <CButton color="link" className="px-0" >
                               Forgot Password
                             </CButton>
                           </CCol>
@@ -92,11 +102,11 @@ const Login = () => {
                       <CRow>
                         <CCol xs={12} className="d-flex justify-content-center p-0 m-0">
                           <CButton color="link" className="px-0" onClick={() => type === 'user' ? setType('canteenManager') : setType('user')}>
-                            Login as {type === 'user' ? 'Canteen Mananger' : 'User'}
+                            Login as {type === 'user' ? 'Canteen Mananger' : 'Student / Staff'}
                           </CButton>
                         </CCol>
                         <CCol xs={12} className="d-flex justify-content-center p-0 m-0">
-                        Are you a new user ? &nbsp;<CButton color="link" className="p-0 m-0" >
+                        Are you a new user ? &nbsp;<CButton color="link" className="p-0 m-0" onClick={() => navigate("/register")}>
                             Create Account
                           </CButton>
                         </CCol>

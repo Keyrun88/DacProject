@@ -9,36 +9,38 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.api.METCanteen.DAO.DiscountDAO;
+import com.api.METCanteen.DAO.FeedbackDAO;
+import com.api.METCanteen.Model.Feedback;
 
 @Repository
-public class DiscountDAOImpl implements DiscountDAO {
+public class FeedbackDAOImpl implements FeedbackDAO {
 
-	
 	@Autowired
 	private JdbcTemplate template;
 	
 	private SimpleJdbcCall jdbcCall;
 	
 	@Override
-	public Object getDiscount() throws Exception {
+	public Object getFeedback() throws Exception {
 		jdbcCall = new SimpleJdbcCall(template)
-				.withSchemaName("metcanteensys").withProcedureName("c_getDiscount");
-		
+				.withSchemaName("metcanteensys").withProcedureName("c_getFeedback");
+				
 		Map<String, Object> result = jdbcCall.execute();
 		
 		return result.get("#result-set-1");
 	}
 
 	@Override
-	public Object updateDiscount(String studentDiscount, String staffDiscount) throws Exception {
+	public Object addFeedback(Feedback param) throws Exception {
 		jdbcCall = new SimpleJdbcCall(template)
-				.withSchemaName("metcanteensys").withProcedureName("c_updateDiscount");	
-	
+				.withSchemaName("metcanteensys").withProcedureName("c_addFeedback");
+			
 		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("inStaffDiscount", staffDiscount)
-				.addValue("inStudentDiscount", studentDiscount);
-		
+				 .addValue("inFeedback", param.getFeedback())
+				    .addValue("inRating", param.getRating())
+				    .addValue("inOrderID", param.getOrderId())
+				    .addValue("inUserID", param.getUserId());
+				
 		Map<String, Object> result = jdbcCall.execute(params);
 		
 		return result.get("#result-set-1");

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.METCanteen.DAO.UsersDAO;
+import com.api.METCanteen.Model.UpdateUser;
 import com.api.METCanteen.Model.Users;
 import com.api.METCanteen.Service.UsersService;
 
@@ -19,12 +20,17 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Object login(String email, String password, String type) throws Exception {
-		return usersDao.login(email, password, type);
+	public Object login(String email, String password, Boolean isCanteenManager) throws Exception {
+		return usersDao.login(email, password, isCanteenManager);
 	}
 
 	@Override
 	public Object forgotPassword(String email) throws Exception {
 		return usersDao.forgotPassword(email);
+	}
+
+	@Override
+	public Object updateUser(UpdateUser param) throws Exception {
+		return usersDao.updateUser(param);
 	}
 }

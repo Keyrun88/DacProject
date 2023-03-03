@@ -1,13 +1,7 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
-  cilAccountLogout,
-  cilBalanceScale,
-  cilDrop,
   cilFastfood,
-  cilInfo,
-  cilPeople,
-  cilShareAlt,
   cilSpeedometer,
 } from '@coreui/icons'
 import { CNavItem } from '@coreui/react'
@@ -17,24 +11,39 @@ const logout = () => {
   Navigate('/login')
 }
 
-export const _userNav = [
-  {
-    component: CNavItem,
-    name: 'Dashboard',
-    to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Logout',
-    to: '/logout',
-    icon: <CIcon icon={cilAccountLogout} customClassName="nav-icon" />,
-  },
+export const _userNav = [ 
   {
     component: CNavItem,
     name: 'Order Food',
     to: '/order-food',
     icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'History',
+    to: '/history',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Profile',
+    to: '/profile',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Settings',
+    to: '/setting',
+    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
+  }
+]
+
+export const _managerNav = [
+  {
+    component: CNavItem,
+    name: 'Admin Dashboard',
+    to: '/canteen-manager',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
@@ -62,38 +71,9 @@ export const _userNav = [
   },
   {
     component: CNavItem,
-    name: 'History',
-    to: '/history',
-    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
-  },
-
-  {
-    component: CNavItem,
     name: 'Profile',
     to: '/profile',
     icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
   },
-
-  {
-    component: CNavItem,
-    name: 'checkout',
-    to: '/checkout',
-    icon: <CIcon icon={cilFastfood} customClassName="nav-icon" />,
-  }
-]
-
-export const _managerNav = [
-  {
-    component: CNavItem,
-    name: 'Admin Dashboard',
-    to: '/canteen-manager',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Logout',
-    to: '/logout',
-    icon: <CIcon icon={cilAccountLogout} customClassName="nav-icon" />,
-  }
 ]
 

@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.api.METCanteen.DAO.UsersDAO;
+import com.api.METCanteen.Model.UpdateUser;
 import com.api.METCanteen.Model.Users;
 
 @Repository
@@ -35,8 +36,10 @@ public class UsersDAOImpl implements UsersDAO {
 				.addValue("inLastName", input.getLastName())
 				.addValue("inEmail", input.getEmail())
 				.addValue("inPassword", input.getPassword())
-				.addValue("inSecurityQuestion", input.getQuestion())
-				.addValue("inAnswer", input.getAnswer());
+				.addValue("inSecurityQ", input.getQuestion())
+				.addValue("inAnswer", input.getAnswer())
+				.addValue("inIsCanteenManager", input.getIsCanteenManager())
+				.addValue("inIsStaffMember", input.getIsStaffMember());
 		
 		Map<String, Object> result = jdbcCall.execute(params);
 		
@@ -44,19 +47,15 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public Object login(String email, String password, String type) throws Exception {
+	public Object login(String email, String password, Boolean isCanteenManager) throws Exception {
 		
-		if (type.equals("user")) {
 			jdbcCall = new SimpleJdbcCall(template)
 					.withSchemaName("metcanteensys").withProcedureName("c_logInUser");	
-		} else {
-			jdbcCall = new SimpleJdbcCall(template)
-					.withSchemaName("metcanteensys").withProcedureName("c_logInCanteenManager");
-		}
 		
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("inEmail", email)
-				.addValue("inPass", password);
+				.addValue("inPassword", password)
+				.addValue("inIsCanteenManager", isCanteenManager);
 		
 		Map<String, Object> result = jdbcCall.execute(params);
 		
@@ -71,6 +70,25 @@ public class UsersDAOImpl implements UsersDAO {
 		SqlParameterSource params = new MapSqlParameterSource()
 				.addValue("inEmail", email);
 				
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
+
+	@Override
+	public Object updateUser(UpdateUser param) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_updateUser");
+		
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inFirstName", param.getFirstName()) 
+				.addValue("inLastName", param.getLastName()) 
+				.addValue("inEmail", param.getEmail()) 
+				.addValue("inUserId", param.getUserId()) 
+				.addValue("inImageURL", param.getImageUrl())
+				.addValue("inPassword", param.getPassword()) 
+				.addValue("inMobileNo", param.getMobileNo());
+		
 		Map<String, Object> result = jdbcCall.execute(params);
 		
 		return result.get("#result-set-1");

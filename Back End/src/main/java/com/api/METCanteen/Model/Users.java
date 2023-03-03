@@ -8,7 +8,21 @@ public class Users {
 	private String Password;
 	private String Question;
 	private String Answer;
+	private Boolean isCanteenManager;
+	private Boolean isStaffMember;
 	
+	public Boolean getIsCanteenManager() {
+		return isCanteenManager;
+	}
+	public void setIsCanteenManager(Boolean isCanteenManager) {
+		this.isCanteenManager = isCanteenManager;
+	}
+	public Boolean getIsStaffMember() {
+		return isStaffMember;
+	}
+	public void setIsStaffMember(Boolean isStaffMember) {
+		this.isStaffMember = isStaffMember;
+	}
 	public String getEmail() {
 		return Email;
 	}

@@ -13,9 +13,22 @@ export const createUser = (reqObj) => {
     })
 }
 
-export const login = (email, password, type) => {
+export const updateUser = (reqObj) => {
     return new Promise((resolve, reject) => {
-        const url = `login?email=${email}&password=${password}&type=${type}`
+        const url = "updateUser"
+        const method = "PUT"
+        BaseAPIPOST(url, method, reqObj).then(res => {
+            if (res.status === 200) resolve(res)
+            else reject(res)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+export const login = (email, password, isCanteenManager) => {
+    return new Promise((resolve, reject) => {
+        const url = `login?email=${email}&password=${password}&isCanteenManager=${isCanteenManager}`
         const method = "GET"
         BaseAPIGET(url, method).then(res => {
             if (res.status === 200) resolve(res)

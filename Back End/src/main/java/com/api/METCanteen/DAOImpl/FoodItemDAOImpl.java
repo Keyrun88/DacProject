@@ -9,36 +9,39 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.api.METCanteen.DAO.DiscountDAO;
+import com.api.METCanteen.DAO.FoodItemDAO;
+import com.api.METCanteen.Model.Feedback;
+import com.api.METCanteen.Model.FoodItem;
 
 @Repository
-public class DiscountDAOImpl implements DiscountDAO {
+public class FoodItemDAOImpl implements FoodItemDAO {
 
-	
 	@Autowired
 	private JdbcTemplate template;
 	
 	private SimpleJdbcCall jdbcCall;
 	
 	@Override
-	public Object getDiscount() throws Exception {
+	public Object getFoodItems() throws Exception {
 		jdbcCall = new SimpleJdbcCall(template)
-				.withSchemaName("metcanteensys").withProcedureName("c_getDiscount");
-		
+				.withSchemaName("metcanteensys").withProcedureName("c_getFoodItems");
+				
 		Map<String, Object> result = jdbcCall.execute();
 		
 		return result.get("#result-set-1");
 	}
 
 	@Override
-	public Object updateDiscount(String studentDiscount, String staffDiscount) throws Exception {
+	public Object addFoodItem(FoodItem param) throws Exception {
 		jdbcCall = new SimpleJdbcCall(template)
-				.withSchemaName("metcanteensys").withProcedureName("c_updateDiscount");	
-	
+				.withSchemaName("metcanteensys").withProcedureName("c_addFoodItem");
+			
 		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("inStaffDiscount", staffDiscount)
-				.addValue("inStudentDiscount", studentDiscount);
-		
+				.addValue("inName", param.getName())
+				.addValue("inCategory", param.getCategory())
+				.addValue("inPrice", param.getPrice())
+				.addValue("inImageURL", param.getImageURL());
+				
 		Map<String, Object> result = jdbcCall.execute(params);
 		
 		return result.get("#result-set-1");
