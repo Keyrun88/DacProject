@@ -42,4 +42,14 @@ public class FoodItemController {
 			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
 		}
 	}
+	
+	@RequestMapping(value = "/deleteFoodItem", method = RequestMethod.DELETE)
+	public ResponseEntity<Object> deleteFoodItem(Integer itemId) throws Exception {
+		try {
+			Object res = service.deleteFoodItem(itemId);
+			return Response.generateResponse("", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
 }

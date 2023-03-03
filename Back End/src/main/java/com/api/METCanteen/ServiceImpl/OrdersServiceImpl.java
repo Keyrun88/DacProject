@@ -1,9 +1,12 @@
 package com.api.METCanteen.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.api.METCanteen.DAO.OrdersDAO;
 import com.api.METCanteen.Model.Orders;
 import com.api.METCanteen.Service.OrdersService;
 
+@Service
 public class OrdersServiceImpl implements OrdersService {
 	@Autowired
 	OrdersDAO ordersDao;

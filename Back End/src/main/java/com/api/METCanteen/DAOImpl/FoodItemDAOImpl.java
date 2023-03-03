@@ -47,4 +47,18 @@ public class FoodItemDAOImpl implements FoodItemDAO {
 		return result.get("#result-set-1");
 	}
 
+	@Override
+	public Object deleteFoodItem(Integer itemId) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_deleteFoodItem");
+				
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inItemId", itemId);
+				
+				
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
+
 }

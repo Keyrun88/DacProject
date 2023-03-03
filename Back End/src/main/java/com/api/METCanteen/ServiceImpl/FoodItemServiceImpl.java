@@ -25,4 +25,9 @@ public class FoodItemServiceImpl implements FoodItemService {
 	public Object addFoodItem(FoodItem param) throws Exception {
 		return dao.addFoodItem(param);
 	}
+
+	@Override
+	public Object deleteFoodItem(Integer itemId) throws Exception {
+		return dao.deleteFoodItem(itemId);
+	}
 }
