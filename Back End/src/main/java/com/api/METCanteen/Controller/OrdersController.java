@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.METCanteen.Model.Orders;
 import com.api.METCanteen.Model.Response;
 import com.api.METCanteen.Service.OrdersService;
 
@@ -31,9 +32,9 @@ public class OrdersController {
 	}
 	
 	@RequestMapping(value = "/addOrder", method = RequestMethod.POST)
-	public ResponseEntity<Object> addOrder(String foodItem, int billAmount, Date dateAndTime, String status, int discount, int userID) throws Exception {
+	public ResponseEntity<Object> addOrder(Orders input) throws Exception {
 		try {
-			Object res = ordersService.addOrder(foodItem,billAmount,dateAndTime,status,discount,userID);
+			Object res = ordersService.addOrder(input);
 			return Response.generateResponse("", HttpStatus.OK, res);
 		} catch (Exception e) {
 			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
@@ -51,9 +52,9 @@ public class OrdersController {
 	}
 	
 	@RequestMapping(value = "/updateOrderStatus", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateOrderStatus(String status, int orderID) throws Exception {
+	public ResponseEntity<Object> updateOrderStatus(Orders input) throws Exception {
 		try {
-			Object res = ordersService.updateOrderStatus(status,orderID);
+			Object res = ordersService.updateOrderStatus(input);
 			return Response.generateResponse("", HttpStatus.OK, res);
 		} catch (Exception e) {
 			return Response.generateResponse(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR, null);

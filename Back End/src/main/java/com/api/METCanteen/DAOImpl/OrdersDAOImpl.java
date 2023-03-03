@@ -1,6 +1,5 @@
-package com.api.METCanteen.DAOImpl;
 
-import java.sql.Date;
+package com.api.METCanteen.DAOImpl;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,9 +7,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-
 import com.api.METCanteen.DAO.OrdersDAO;
-import com.api.METCanteen.Model.Users;
+import com.api.METCanteen.Model.Orders;
 
 @Repository
 public class OrdersDAOImpl implements OrdersDAO {
@@ -31,18 +29,18 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	@Override
-	public Object addOrder(String foodItem, int billAmount, Date dateAndTime, String status, int discount, int userID) throws Exception {
+	public Object addOrder(Orders input) throws Exception {
 		
 			jdbcCall = new SimpleJdbcCall(template)
 					.withSchemaName("metcanteensys").withProcedureName("c_addOrder");
 
 			SqlParameterSource params = new MapSqlParameterSource()
-					.addValue("inFoodItem", foodItem)
-					.addValue("inBillAmount", billAmount)
-					.addValue("inDateAndTime", dateAndTime)
-					.addValue("inStatus", status)
-					.addValue("inDiscount", discount)
-					.addValue("inUserID", userID);
+					.addValue("inFoodItem", input.getFoodItems())
+					.addValue("inBillAmount",input.getBillAmount())
+					.addValue("inDateAndTime",input.getDateAndTime() )
+					.addValue("inStatus", input.getStatus())
+					.addValue("inDiscount", input.getDiscount())
+					.addValue("inUserID", input.getUserID());
 			
 			Map<String, Object> result = jdbcCall.execute(params);
 			
@@ -63,14 +61,14 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	@Override
-	public Object updateOrderStatus(String status, int orderID) throws Exception {
+	public Object updateOrderStatus(Orders input) throws Exception {
 		
 		jdbcCall = new SimpleJdbcCall(template)
 				.withSchemaName("metcanteensys").withProcedureName("c_updateOrderStatus");
 
 		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("inStatus", status)
-				.addValue("inOrderID",orderID);
+				.addValue("inStatus", input.getStatus())
+				.addValue("inOrderID",input.getOrderID());
 				
 		Map<String, Object> result = jdbcCall.execute(params);
 		

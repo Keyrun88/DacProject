@@ -1,10 +1,7 @@
 package com.api.METCanteen.ServiceImpl;
-
-import java.sql.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.api.METCanteen.DAO.OrdersDAO;
+import com.api.METCanteen.Model.Orders;
 import com.api.METCanteen.Service.OrdersService;
 
 public class OrdersServiceImpl implements OrdersService {
@@ -17,9 +14,9 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDao.getAllOrders();
 	}
 	@Override
-	public Object addOrder(String foodItem, int billAmount, Date dateAndTime, String status, int discount, int userID) throws Exception{
+	public Object addOrder(Orders input) throws Exception{
 		
-		return ordersDao.addOrder(foodItem,billAmount,dateAndTime,status,discount,userID);
+		return ordersDao.addOrder(input);
 	}
 	@Override
 	public Object getOrderByUserId(int userId) throws Exception {
@@ -27,9 +24,11 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDao.getOrderByUserId(userId);
 	}
 	@Override
-	public Object updateOrderStatus(String status, int orderID) throws Exception {
+	public Object updateOrderStatus(Orders input) throws Exception {
 		
-		return ordersDao.updateOrderStatus(status, orderID);
+		return ordersDao.updateOrderStatus(input);
 	}
+	
+	
 
 }

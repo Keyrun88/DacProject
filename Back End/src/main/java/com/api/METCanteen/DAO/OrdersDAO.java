@@ -1,11 +1,11 @@
-package com.api.METCanteen.DAO;
 
-import java.sql.Date;
+package com.api.METCanteen.DAO;
+import com.api.METCanteen.Model.Orders;
 
 public interface OrdersDAO {
 	
 	Object getAllOrders () throws Exception;
-	Object addOrder(String foodItem,int billAmount,Date dateAndTime,String Status,int discountID,int userID)throws Exception;
 	Object getOrderByUserId(int userId)throws Exception;
-	Object updateOrderStatus(String status,int orderID)throws Exception;
+	Object updateOrderStatus(Orders input) throws Exception;
+	Object addOrder(Orders input) throws Exception;
 }

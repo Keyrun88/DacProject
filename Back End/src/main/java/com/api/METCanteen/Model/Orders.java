@@ -8,7 +8,7 @@ public class Orders {
 		private String FoodItems;
 		private int BillAmount;
 		private Date DateAndTime;
-		private int DiscountID;
+		private int Discount;
 		private int UserID;
 		private String Status;
 		public int getOrderID() {
@@ -35,11 +35,11 @@ public class Orders {
 		public void setDateAndTime(Date dateAndTime) {
 			DateAndTime = dateAndTime;
 		}
-		public int getDiscountID() {
-			return DiscountID;
+		public int getDiscount() {
+			return Discount;
 		}
-		public void setDiscountID(int discountID) {
-			DiscountID = discountID;
+		public void setDiscountID(int discount) {
+			Discount = discount;
 		}
 		public int getUserID() {
 			return UserID;
@@ -56,7 +56,7 @@ public class Orders {
 		@Override
 		public String toString() {
 			return "Orders [OrderID=" + OrderID + ", FoodItems=" + FoodItems + ", BillAmount=" + BillAmount
-					+ ", DateAndTime=" + DateAndTime + ", DiscountID=" + DiscountID + ", UserID=" + UserID + ", Status="
+					+ ", DateAndTime=" + DateAndTime + ", DiscountID=" + Discount+ ", UserID=" + UserID + ", Status="
 					+ Status + "]";
 		}
 		
