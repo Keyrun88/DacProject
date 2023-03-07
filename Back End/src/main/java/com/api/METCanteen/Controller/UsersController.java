@@ -62,4 +62,14 @@ public class UsersController {
 			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
 		}
 	}
+
+	@RequestMapping(value = "/deleteAccount", method = RequestMethod.DELETE)
+	public ResponseEntity<Object> deleteAccount(Integer id) throws Exception {
+		try {
+			Object res = userService.deleteAccount(id);
+			return Response.generateResponse("!", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
 }

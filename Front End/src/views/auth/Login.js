@@ -17,7 +17,7 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilPhone } from '@coreui/icons'
 import logo from 'src/assets/images/Logo.png'
 import { AppFooter } from 'src/components'
-import { login } from 'src/services/UserService'
+import { forgotPassword, login } from 'src/services/UserService'
 import Swal from 'sweetalert2'
 
 const Login = () => {
@@ -35,7 +35,7 @@ const Login = () => {
       if (res.data.length) {
         if (type === "user") {
           localStorage.setItem("user", JSON.stringify(res.data[0]))
-          navigate("/order-food")
+          navigate("/order-food/1")
         } else {
           localStorage.setItem("user", JSON.stringify(res.data[0]))
           navigate("/canteen-manager")
@@ -51,12 +51,67 @@ const Login = () => {
     })
   }
 
+  const onForgot = async () => {
+    const { value: email } = await Swal.fire({
+      title: 'Enter your Email address',
+      input: 'text',
+      inputLabel: 'Your Email address',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to write something!'
+        }
+      }
+    })
+
+    if (email) {
+      debugger
+      forgotPassword(email).then(async rs => {
+        if (rs.data.length) {
+          const { value: answer } = await Swal.fire({
+            title: 'Enter answer for security question',
+            input: 'text',
+            inputLabel: rs.data[0].SecurityQ + " ?",
+            showCancelButton: true,
+            inputValidator: (value) => {
+              if (!value) {
+                return 'You need to write something!'
+              }
+            }
+          })
+        } else {
+          Swal.fire({
+            text: "Email Id not found!! Please try to create an account.",
+            icon:"info"
+          })
+        }
+
+        if (answer) {
+          if (answer === rs.data[0].Answer) {
+            Swal.fire({
+              title: 'Your Password',
+              text: rs.data[0].Password
+            })
+          } else {
+            Swal.fire({
+              title: 'Wrong Answer',
+              icon:"warning",
+              text: "Please Enter correct answer"
+            })
+          }
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       if (JSON.parse(localStorage.getItem("user")).IsCanteenManager) {
         navigate("/canteen-manager")
       } else {
-        navigate("/order-food")
+        navigate("/order-food/1")
       }
     }
   }, [])
@@ -83,7 +138,7 @@ const Login = () => {
                         <CInputGroupText>
                           <CIcon icon={cilPhone} />
                         </CInputGroupText>
-                        <CFormInput placeholder="Password" autoComplete="username" defaultValue={loginData.password} onChange={e => setLoginData({ ...loginData, password: window.btoa(e.target.value) })} />
+                        <CFormInput type="password" placeholder="Password" autoComplete="username" defaultValue={loginData.password} onChange={e => setLoginData({ ...loginData, password: window.btoa(e.target.value) })} />
                       </CInputGroup>
                       <CRow>
                         <CCol xs={12} className="d-flex justify-content-between">
@@ -93,7 +148,7 @@ const Login = () => {
                             </CButton>
                           </CCol>
                           <CCol xs={5} className="d-flex justify-content-end">
-                            <CButton color="link" className="px-0" >
+                            <CButton color="link" className="px-0" onClick={onForgot} >
                               Forgot Password
                             </CButton>
                           </CCol>
@@ -106,7 +161,7 @@ const Login = () => {
                           </CButton>
                         </CCol>
                         <CCol xs={12} className="d-flex justify-content-center p-0 m-0">
-                        Are you a new user ? &nbsp;<CButton color="link" className="p-0 m-0" onClick={() => navigate("/register")}>
+                          Are you a new user ? &nbsp;<CButton color="link" className="p-0 m-0" onClick={() => navigate("/register")}>
                             Create Account
                           </CButton>
                         </CCol>

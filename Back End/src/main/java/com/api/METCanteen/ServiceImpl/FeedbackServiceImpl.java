@@ -23,6 +23,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 		return dao.addFeedback(param);
 	}
 
+	@Override
+	public Object deleteFeedback(Integer id) throws Exception {
+		return dao.deleteFeedback(id);
+	}
+
 	
 
 }

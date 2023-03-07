@@ -61,14 +61,27 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	@Override
-	public Object updateOrderStatus(Orders input) throws Exception {
+	public Object updateOrderStatus(Integer orderId, String status) throws Exception {
 		
 		jdbcCall = new SimpleJdbcCall(template)
 				.withSchemaName("metcanteensys").withProcedureName("c_updateOrderStatus");
 
 		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("inStatus", input.getStatus())
-				.addValue("inOrderID",input.getOrderID());
+				.addValue("inStatus", status)
+				.addValue("inOrderID", orderId);
+				
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
+
+	@Override
+	public Object getOrderById(int id) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_getOrderById");
+			
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inId", id);
 				
 		Map<String, Object> result = jdbcCall.execute(params);
 		

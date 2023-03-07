@@ -2,6 +2,8 @@ package com.api.METCanteen.Model;
 
 import java.sql.Date;
 
+import javax.validation.constraints.Pattern;
+
 public class Orders {
 
 		private int OrderID;
@@ -11,6 +13,7 @@ public class Orders {
 		private int Discount;
 		private int UserID;
 		private String Status;
+		
 		public int getOrderID() {
 			return OrderID;
 		}
@@ -38,7 +41,7 @@ public class Orders {
 		public int getDiscount() {
 			return Discount;
 		}
-		public void setDiscountID(int discount) {
+		public void setDiscount(int discount) {
 			Discount = discount;
 		}
 		public int getUserID() {

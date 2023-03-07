@@ -93,4 +93,17 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		return result.get("#result-set-1");
 	}
+
+	@Override
+	public Object deleteAccount(Integer id) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_deleteAcc");
+
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inUserId", id);
+				
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
 }

@@ -6,5 +6,6 @@ public interface FeedbackDAO {
 
 	Object getFeedback() throws Exception;
 	Object addFeedback(Feedback param) throws Exception;
+	Object deleteFeedback(Integer id) throws Exception;
 	
 }

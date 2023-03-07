@@ -52,4 +52,14 @@ public class FoodItemController {
 			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
 		}
 	}
+	
+	@RequestMapping(value = "/updateFoodItem", method = RequestMethod.PUT)
+	public ResponseEntity<Object> updateFoodItem(@RequestBody FoodItem param) throws Exception {
+		try {
+			Object res = service.updateFoodItem(param);
+			return Response.generateResponse("", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
 }

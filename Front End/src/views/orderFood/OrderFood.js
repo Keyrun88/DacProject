@@ -1,120 +1,251 @@
-import { CButton, CCard, CCardBody, CCardHeader, CCardImage, CCardText, CCardTitle, CCol, CContainer, CForm, CFormInput, CFormLabel, CListGroup, CRow } from "@coreui/react"
+import { cilCheck } from "@coreui/icons"
+import CIcon from "@coreui/icons-react"
+import { CButton, CCard, CCardBody, CCardHeader, CCardFooter, CCardImage, CImage, CCardText, CCardTitle, CCol, CContainer, CForm, CFormInput, CFormLabel, CListGroup, CRow, CCardGroup, CFormSelect } from "@coreui/react"
+// import { CButton, CCard, CCardBody, CCardHeader, , CCardImage, , CCardText, CCardTitle, CCardSubtitle, CCol, CContainer, CForm, CFormInput, CFormLabel, CListGroup, CRow } from "@coreui/react"
 
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import PageHeading from "src/components/PageHeading"
+import { getDiscount } from "src/services/DiscountService"
+import { getFoodItems } from "src/services/FootItemService"
+import { addOrder } from "src/services/OrderService"
+import Swal from "sweetalert2"
 
 const OrderFood = () => {
+
+    const [foodItems, setFoodItems] = useState([])
+    const [foodItemsCopy, setFoodItemsCopy] = useState([])
+
+    const [discount, setDiscount] = useState(0)
+    const [billTotal, setBillTotal] = useState(0)
+    const [finalBill, setFinalBill] = useState(0)
+    const [searchValue, setSearchValue] = useState("")
+
+    const user = JSON.parse(localStorage.getItem("user"))
+
+    const param = useParams()
+
+    const navigate = useNavigate()
+
+    const onAddItem = (item) => {
+        setFoodItems([])
+        setFoodItemsCopy([])
+        const temp = foodItems
+        temp.forEach(x => {
+            if (x.ItemID === item.ItemID) {
+                x.isAddedTocart = true
+            }
+        })
+        setTimeout(() => {
+            setFoodItems(temp)
+            setFoodItemsCopy(temp)
+        }, 200);
+    }
+
+    const loadData = () => {
+        getFoodItems().then(rs => {
+            setFoodItems(rs.data)
+            setFoodItemsCopy(rs.data)
+        })
+        getDiscount().then(rs => {
+            if (user.isStaffMember) {
+                setDiscount(rs.data[0].StaffDiscount)
+            } else {
+                setDiscount(rs.data[0].StudentDiscount)
+            }
+        })
+    }
+
+    const filterByType = (type) => {
+        debugger
+        const temp = foodItemsCopy.filter(x => x.Category === type)
+        setFoodItems(temp)
+    }
+
+    const confirmOrder = () => {
+        let tempFoodItems = ""
+
+        foodItems.forEach(x => {
+            if (x.isAddedTocart) {
+                tempFoodItems += x.Name + ", "
+            }
+        })
+
+        const reqObj = {
+            status: "accepted",
+            discount: discount,
+            foodItems: tempFoodItems,
+            userID: user.ID,
+            billAmount: finalBill,
+        }
+
+        addOrder(reqObj).then(rs => {
+            Swal.fire({
+                title: "Success",
+                text: "Your order is placed successfully!",
+                icon: "success",
+                confirmButtonColor: "#006f95"
+            }).then(e => {
+                navigate("/order-details/" + rs.data[0].OrderID)
+            }) 
+        }).catch(err => {
+            Swal.fire({
+                title: "Failed",
+                text: "Failed to place your order, please try again!",
+                icon: "error",
+                confirmButtonColor: "#006f95"
+            })
+        })
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    useEffect(() => {
+        if (param.id === '2') {
+            const temp = foodItems.filter(x => x.isAddedTocart)
+            let total = 0
+            temp.forEach(x => {
+                total += x.Price * x.Quantity
+            })
+            setBillTotal(total)
+            setFinalBill(total + 10 - ((total / 100) * discount))
+        }
+    }, [param])
+
+    useEffect(() => {
+        if (searchValue === "") {
+            loadData()
+        } else {
+            const temp = foodItemsCopy.filter(x => x.Name.toLowerCase().includes(searchValue.toLowerCase()))
+            setFoodItems(temp)
+        }
+    }, [searchValue])
+
     return <>
-        <CCard>
-            <CCardHeader>Order Food</CCardHeader>
+        {param.id === "1" ? <CCard>
+            <CCardHeader>
+                <div className="d-flex justify-content-between">
+                    <PageHeading> Order Food </PageHeading>
+                    <CButton onClick={() => navigate("/order-food/2")}><CIcon icon={cilCheck} /> Checkout ({foodItems.filter(x => x.isAddedTocart).length}) </CButton>
+                </div>
+            </CCardHeader>
             <CCardBody>
                 <CContainer>
-                    <CRow>
-                        <CCol md={8} className="border">
-                            1st col
+                    <CRow className="p-3 pr-5">
+                        <CCol md={9}>
+                            <CFormSelect
+                                className="mb-3"
+                                onChange={(e) => filterByType(e.target.value)}
+                                options={[
+                                    { label: 'Snacks', value: 'Snacks' },
+                                    { label: 'Breakfast', value: 'Breakfast' },
+                                    { label: 'Main Course', value: 'Main Course' },
+                                    { label: 'Desserts', value: 'Desserts' },
+                                    { label: 'Drinks', value: 'Drinks' },
+                                ]}
+                            />
                         </CCol>
-                        <CCol md={4} className="border">
-                            <CForm className="row g-3 mt-1">
-                                <CCol xs="auto">
-                                    <CFormLabel htmlFor="staticEmail2" className="visually-hidden">
-                                        Search
-                                    </CFormLabel>
-                                </CCol>
-                                <CCol xs="auto">
-                                    <CFormInput type="text" id="inputPassword2" placeholder="Search" />
-                                </CCol>
-                                <CCol xs="auto">
-                                    <CButton type="submit" className="mb-3">
-                                        Search
-                                    </CButton>
-                                </CCol>
-                            </CForm>
+                        <CCol md={3}>
+                            <CCol xs="auto">
+                                <CFormLabel htmlFor="staticEmail2" className="visually-hidden">
+                                    Search
+                                </CFormLabel>
+                            </CCol>
+                            <CCol xs="auto">
+                                <CFormInput type="text" id="inputPassword2" placeholder="Search"
+                                    defaultValue={searchValue}
+                                    onChange={e => setSearchValue(e.target.value)}
+                                />
+                            </CCol>
                         </CCol>
-                    </CRow> 
-                    <CRow>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,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" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,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" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,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" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,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" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,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" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAH0AvAMBIgACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAADBAIFBgEAB//EAEEQAAEDAgMFBAYHBQkBAAAAAAEAAgMEEQUSYQYTITFRB0FxwRQiMnKBsYKDkaHC0dJCUmKS8BcjJDRDc5Ph8Rb/xAAZAQEBAQEBAQAAAAAAAAAAAAABAAIDBAX/xAAhEQEAAgICAgMBAQAAAAAAAAAAARECEwNREjEUQWEhBP/aAAwDAQACEQMRAD8A+OWuvAKXgu2XVOD4/au2XbKzoMEqK3C63EI3xiGjy7wOdYm/AWFv67rqoWqwF6ynlspAHotULDsugKeUroaqhYdl6yLlXg1VIPKvWRcq7lVSsGy7lRcq9lVSsGy5ZGyr2VVKwrcAuEI2VcyqpWDZeseiKWrmUJpWFZesiZVwhFK0CuKdl4tRTVvAKQaphq6GrTFoZVMXA4KQbdSDUqwwF3KihuikGKoWEGroajBmikGJ8RYGRdyJgMXd2mhZcMXciZEa7utFUrK5NF7Imt3ovGPRPirK5FzImt2ubtFKyuRcyJoxlcyHoqlZXKuZUzk6rhYilZbKuFqYLFzIqmrLlqjlKYLdFHKUUreDVLIihqmGXKYhmwg3gphiKI0RsaaQIYpCNHbGURsRWogFxGpiJNNi0RGw37k0LKCLRSESdbBoiNgPRbjEWQEOi7udFYinPRS9HPRNK1ZudF7daKz9HPRc9H0V4q1YYguGJWRp9FEwaLPirVpiUTGrEw6KBh0RRtXGPRRMYVg6LRDMWiKJExrhYnTEUN0R6IpEyxRyJwx6KGRFFxseiI2NMNiv3IrIdFAu2JEbFdNMh0Rmw6JRVsKM2BOMg0R2U9+5aZINgR2U6sI6bRMx0ui0Faym0RmUmitY6TRMMpT+6mwzGJP9FZlYx5kd+63lqqOprqoFwdUOa4+yxoAsei0GOTNlqWbhjXMZ6pd3u48u/wDoLOVDsufg5jcnCw4Osf8A3jovnc3LOWdRL6HDxRGFzA2H4q6CpLcRmO7c2/FtyD8OXxWkp2wVUe8p3h7SO7uWVduREc7ACOQDeFiOHHu+z5rXbIbmeifBE4P3WUghluB624X+9d+Dkn1Lz82H2g6lQ302i0TqT+FBfSaL0+ThTOupkN0Giv30miA+l0RZUboEIwK7dTaILqbRBU7oUN0Kt30+iC6DRSVTodEMwq1dBoh7nRSsFjEZsayjcarG/wCo0+LQUZm0VY3myFw90jzXm34u2nJrI401HBfuWTi2rlb7dHG7wkI8k9BtlEPboJPovBWt2DOrNqI4EzHT6LOQ7aUH7dLUN/lPmnYttMI4Z2VLfqwfNW7Dsas+mgiptE3FTaKgj21wED1ppx4wOTkO2+zvDNVyDxp5PIJ3Y9rVn0vo6bRNR0vK4VTT7X7OPFxiLQP4ont+bUb/AO12aj54iT7tPI75NWZ5se1HFnfphKuKWCrmhZnfJGS8O5gEfAXPclA90rG+lsEMDg+GN7obAyEdeVvlZbkbTbFCTMyV7HF+dxFLKLnX1UntVj2yeM4S6nbKZHtljfG30aRlrOFyCWj9kuXkxwiP7b25Z5TFeMsvT4NLLA/JEbkA2cC0vIN8vjpa/H4rV9ntE0U9W8ROaXObwI9ngeH33V67HtlakMjGLUrWNPqt3mS/imsNqsFpxI2jxKlc2V2bL6Q2zToLrthUTEvPnOU+4TfS6JeSl0VxeN7btexw6hwKC8R97mge8F283GpUklNol30wVzMYALmWMD3gq6aqo2H1qqnHjK380+YpXvpkB9Pom5MSw0Gxr6X/AJm/mlZsWwpvPEKUfWhPnC8JAfBogPp1GbaLBm3vXxG37t3fIJKTanBu6pcfCF/5K2Y9tRx5dGHwIRh48knNtThjR6hmedGW+aSO11MDwpJCNXBG7CPtas5+mJIA5kD4rrWF3stc73RdbaOKJvsxxjwaAmWEBcY4P113fjDx0VXJwZSzH6spqLBcUfwZQT/EW+a28T7d6bim1Wvjx2zvnphm7M40+1qB/wAZWD8Sbi2Nxp4H9xC3R0o8rrcxzapqKfVPx47W/LphmbB4yeRpB9afyTUXZ1izuLp6RvX1yfJbmKcdU5FUDqj4+K35MTD2a4i4etXUgP0/yRP7McTBu2tpHH6Q8lvYqnVNR1ItzWZ/z4tR/ozfOh2Z4wT/AJijI/3HfpS+I9n+JYfSOqpamlc0OYyzS7m5waO7VM1209fFXzNbOZYGuL2FxNgenLloq7FdpMQ2ipWUlRMymDXiaV0d27xjOIHjx+6+i82MceT05bYj2vI+y6tPqyYzAy/MNpi78YRYeyai477F6hx78kLG/MlLt2xmng/xR4xNzjKCHH7O5XewmJuq6arfLk3rnh7rEki/K/Hx6Lthhh9Q45Z8kRcyWHZXs+1gDn1bz1Lm/pQz2WbPX4Pqh9Nv6Vsn1GqA+p1XaOOHHblP2xkvZdgQaQ2oq2nrdn6Um/s0wtnsV9X/ACsPkttLU370rJPqrVHS25dsU/s5pR7OJTW1ial39njW33eK2Hdmpr/iW1fPql3z6q0Y9Ldn2wr9g6lvsV8LvGMt8yl37F17OU8DviR5LePmHVLvl1ToxW7JgpdlMSjacrY3+7IPOyTOAYm02NHL93kV9CfKOqFvh1Wfjx218jLpnGyorJVWtk4KbZF3cVoyZHZPZVLZSismWoC5ZUapiOp1VIydFbOtBfx1OqZjqeXFZ1lSjsqimg0sdVqmWVQItci/Dgsyyq1R2VZ6q8YVqeuoTR1QDYnEudezb2dpe3Gyo62rqZnEMa1mRpaS1tuBsLf9LSY1VVDmN9VroW8SC7n8O7xWRqHlz87QC0kX43PPkvl8nHrzmH0sOTzw/RWh5a5kb7AuDedrHw+xbbYRz6enqXundIyQt7zbML3t3fYsPTsqa+cQwyhrslwJOPctng8b8Nom075Q+xuLCwF16ODC5t5ubKoqWrfWDqgPrNVTPq9UF1Ueq9ni81rd9Xql31WqqnVLuqE6oPVFJaPqtUF9Tqq105Q3TaqKwfU6oLqjVIOmQ3TKR509+9CM3Hmk3TIZlQVMHlTD0sHFSDiuVtSabIiB6UDipBxstWDrZURsiSa42Uw8rUSj7ZURs2qrg8qYeU2KWbZ9UVtRqqkPKmHu6rdilsai7cpNweYQZIqSQ3fBGTa18qQ3juqlvCiay9wYmY9SfhMFOTuI2x3AByi11P0nVVucr2cpioj+Cr/qxNRqoGo1SOcqJeVWaOmo6FQM+qUzlRLys2jRm1UHTJcvKjnN0EcyqBlQb8L9VAlFoUyKO8QS4qOZFp//2Q==" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,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" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
-                    <CCard style={{ width: '18rem' }}>
-                        <CCardImage orientation="top" src="data:image/jpeg;base64,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" />
-                        <CCardBody>
-                            <CCardTitle>Card title</CCardTitle>
-                            <CCardText>
-                                 price
-                            </CCardText>
-                            <CButton color="warning" href="#">Add To Cart</CButton>
-                        </CCardBody>
-                    </CCard>
                     </CRow>
+                    {foodItems.length ? <CRow className="d-flex justify-content-center">
+                        {foodItems.map((x, i) => (
+                            <CCard style={{ width: '13rem' }} className="m-2 p-2" key={i}>
+                                <CCardImage height="100px" orientation="top" src={x.ImageURL} />
+                                <CCardBody>
+                                    <CCardTitle>
+                                        <div className="d-flex justify-content-between">
+                                            <span>{x.Name}</span>
+                                            <h6 className="text-secondary">{x.Price} Rs.</h6>
+                                        </div>
+                                    </CCardTitle>
+                                    <CCardText>
+                                        <span className="text-secondary"> {x.Category} </span>
+                                    </CCardText>
+                                    <CFormInput type="number" placeholder="Quantity" defaultValue={x.Quantity} onChange={e => x.Quantity = e.target.value} />
+                                    <CButton className="w-100 my-1" color="warning" onClick={() => onAddItem(x)} disabled={x.isAddedTocart} >{x.isAddedTocart ? "Added to cart" : "Add Item to cart"}</CButton>
+                                </CCardBody>
+                            </CCard>))}
+                    </CRow> : <h4 className="text-center">No item found</h4>}
                 </CContainer>
             </CCardBody>
+        </CCard> : <>
+            <div className="bg-light min-vh-200 d-flex flex-row align-items-center">
+                <CContainer>
+                    <CRow className="justify-content-center">
+                        <CCol md={8}>
+                            <CCard >
+                                <CCardHeader>
+                                    <PageHeading>Order List</PageHeading>
+                                </CCardHeader>
+                                <CCardBody>
+                                    {foodItems.filter(x => x.isAddedTocart).map(x => {
+                                        return <CRow className="p-2 m-2">
+                                            <CCol md={2}>
+                                                <img src={x.ImageURL} width="100px" height="80px" />
+                                            </CCol>
+                                            <CCol md={10}>
+                                                <div className="d-flex justify-content-between">
+                                                    <div><h6>{x.Name}</h6>
+                                                        <span>{x.Category}</span>
+                                                    </div>
+                                                    <span>{x.Price} Rs. x {x.Quantity} = {x.Price * x.Quantity}</span>
+                                                </div>
+                                            </CCol>
+                                        </CRow>
+                                    })}
 
-        </CCard>
+
+                                </CCardBody>
+                            </CCard>
+                        </CCol>
+                        <CCol md={4}>
+                            <CCard>
+                                <CCardHeader>
+                                    <PageHeading>Order Details</PageHeading>
+                                </CCardHeader>
+                                <CCardBody>
+                                    <div className="d-flex justify-content-between">
+                                        <span>Total Amount</span>
+                                        <span>{billTotal} Rs</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <span>Discount {discount}%</span>
+                                        <span>-  {(billTotal / 100) * discount} Rs</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <span>Tax</span>
+                                        <span>+ 10 Rs</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <span></span>
+                                        <span>---------</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <span>Bill Amount</span>
+                                        <span>{finalBill} Rs.</span>
+                                    </div>
+                                    <CButton className="w-100 mt-4" onClick={confirmOrder}>Confirm Order</CButton>
+                                </CCardBody>
+                            </CCard>
+                        </CCol>
+                    </CRow>
+                </CContainer>
+            </div >
+        </>}
     </>
 }
 

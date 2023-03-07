@@ -8,5 +8,6 @@ public interface UsersService {
 	Object login(String email, String password, Boolean isCanteenManager) throws Exception;
 	Object forgotPassword(String email) throws Exception;
 	Object updateUser(UpdateUser param) throws Exception;
+	Object deleteAccount(Integer id) throws Exception;
 	
 }

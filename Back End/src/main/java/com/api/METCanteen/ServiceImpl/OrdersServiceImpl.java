@@ -27,9 +27,13 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDao.getOrderByUserId(userId);
 	}
 	@Override
-	public Object updateOrderStatus(Orders input) throws Exception {
+	public Object updateOrderStatus(Integer orderId, String status) throws Exception {
 		
-		return ordersDao.updateOrderStatus(input);
+		return ordersDao.updateOrderStatus(orderId, status);
+	}
+	@Override
+	public Object getOrderById(int id) throws Exception {
+		return ordersDao.getOrderById(id);
 	}
 	
 	

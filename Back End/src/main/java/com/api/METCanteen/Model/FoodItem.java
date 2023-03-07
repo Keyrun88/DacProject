@@ -1,11 +1,19 @@
 package com.api.METCanteen.Model;
 
 public class FoodItem {
+	private Integer Id;
 	private String Name;
 	private String Category;
 	private String Price;
 	private String ImageURL;
 	
+	public Integer getId() {
+		return Id;
+	}
+	
+	public void setId(Integer id) {
+		Id = id;
+	}
 	public String getName() {
 		return Name;
 	}

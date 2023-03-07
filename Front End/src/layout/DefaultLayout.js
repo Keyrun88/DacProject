@@ -9,7 +9,13 @@ const DefaultLayout = () => {
   useEffect(() => {
     if (!localStorage.getItem("user")) {
       navigate("/login")
-    }   
+    } else {
+      if (JSON.parse(localStorage.getItem("user")).IsCanteenManager) {
+        navigate("/canteen-manager")
+      } else {
+        navigate("/order-food/1")
+      }
+    }
   }, [])
 
   return (

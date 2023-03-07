@@ -33,4 +33,9 @@ public class UsersServiceImpl implements UsersService {
 	public Object updateUser(UpdateUser param) throws Exception {
 		return usersDao.updateUser(param);
 	}
+
+	@Override
+	public Object deleteAccount(Integer id) throws Exception {
+		return usersDao.deleteAccount(id);
+	}
 }

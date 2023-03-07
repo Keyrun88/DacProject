@@ -51,3 +51,16 @@ export const forgotPassword = (email) => {
         })
     })
 }
+
+export const deleteAccount = (id) => {
+    return new Promise((resolve, reject) => {
+        const url = `deleteAccount?id=${id}`
+        const method = "DELETE"
+        BaseAPIGET(url, method).then(res => {
+            if (res.status === 200) resolve(res)
+            else reject(res)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}

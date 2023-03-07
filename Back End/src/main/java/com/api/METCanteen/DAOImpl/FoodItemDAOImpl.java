@@ -61,4 +61,21 @@ public class FoodItemDAOImpl implements FoodItemDAO {
 		return result.get("#result-set-1");
 	}
 
+	@Override
+	public Object updateFoodItem(FoodItem param) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_updateFoodItem");
+			
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("inItemId", param.getId())
+				.addValue("inName", param.getName())
+				.addValue("inCategory", param.getCategory())
+				.addValue("inPrice", param.getPrice())
+				.addValue("inImageURL", param.getImageURL());
+				
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
+
 }

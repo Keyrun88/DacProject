@@ -6,6 +6,7 @@ public interface OrdersDAO {
 	
 	Object getAllOrders () throws Exception;
 	Object getOrderByUserId(int userId)throws Exception;
-	Object updateOrderStatus(Orders input) throws Exception;
 	Object addOrder(Orders input) throws Exception;
+	Object updateOrderStatus(Integer orderId, String status) throws Exception;
+	Object getOrderById(int id) throws Exception;
 }

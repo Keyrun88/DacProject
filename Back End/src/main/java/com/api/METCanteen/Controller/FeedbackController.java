@@ -31,6 +31,16 @@ public class FeedbackController {
 		}
 	}
 	
+	@RequestMapping(value = "/deleteFeedback", method = RequestMethod.DELETE)
+	public ResponseEntity<Object> deleteFeedback(Integer id) throws Exception {
+		try {
+			Object res = service.deleteFeedback(id);
+			return Response.generateResponse("", HttpStatus.OK, res);
+		} catch (Exception e) {
+			return Response.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+		}
+	}
+	
 	@RequestMapping(value = "/addFeedback", method = RequestMethod.POST)
 	public ResponseEntity<Object> addFeedback(@RequestBody Feedback param) throws Exception {
 		try {

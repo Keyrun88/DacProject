@@ -8,19 +8,15 @@ const CanteenManagerOrders = React.lazy(() => import('./views/CanteenManager/Ord
 const CanteenMenu = React.lazy(() => import('./views/CanteenManager/Menu'))
 const CanteenDiscount = React.lazy(() => import('./views/CanteenManager/Discount'))
 const CanteenFeedback = React.lazy(() => import('./views/CanteenManager/Feedback'))
-const History = React.lazy(() => import('./views/History/history'))
+const History = React.lazy(() => import('./views/History/History'))
 const Profile = React.lazy(() => import('./views/Profile/profile'))
-const Checkout = React.lazy(() => import('./views/checkout/checkout'))
 const Settings = React.lazy(() => import('./views/Setting/Settings'))
-const history = React.lazy(() => import('./views/History/history'))
-const profile = React.lazy(() => import('./views/Profile/profile'))
-const checkout = React.lazy(() => import('./views/checkout/checkout'))
-// const Logout = React.lazy(() => import('./views/auth/Logout'))
+const OrderDetails = React.lazy(() => import('./views/OrderFood/OrderDetails'))
 
 
 const routes = [
   // { path: '/', exact: true, name: 'Home' },
-  { path: '/order-food', name: 'Dashboard', element: OrderFood },
+  { path: '/order-food/:id', name: 'Order Food', element: OrderFood },
   { path: '/canteen-manager', name: 'Canteen Manager Dashboard', element: ManagerDashboard },
   { path: '/canteen-orders', name: 'Canteen Orders', element: CanteenManagerOrders },
   { path: '/canteen-menu', name: 'Canteen Menu', element: CanteenMenu },
@@ -29,8 +25,10 @@ const routes = [
   { path: '/logout', name: 'Logout', element: Logout},
   { path: '/History', name: 'History', element: History},
   { path: '/Profile', name: 'Profile', element: Profile },
-  { path: '/checkout', name: 'checkout', element: Checkout },
-  { path: '/setting', name: 'setting', element: Settings}
+  // { path: '/checkout:id', name: 'checkout', element: Checkout },
+  { path: '/setting', name: 'setting', element: Settings},
+  { path: '/order-details/:id', name: 'Order Details', element: OrderDetails}
+  
 
 ]
 

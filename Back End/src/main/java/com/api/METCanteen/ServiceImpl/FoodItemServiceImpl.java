@@ -30,4 +30,9 @@ public class FoodItemServiceImpl implements FoodItemService {
 	public Object deleteFoodItem(Integer itemId) throws Exception {
 		return dao.deleteFoodItem(itemId);
 	}
+
+	@Override
+	public Object updateFoodItem(FoodItem param) throws Exception {
+		return dao.updateFoodItem(param);
+	}
 }

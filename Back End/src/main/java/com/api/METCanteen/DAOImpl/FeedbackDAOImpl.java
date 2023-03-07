@@ -46,4 +46,17 @@ public class FeedbackDAOImpl implements FeedbackDAO {
 		return result.get("#result-set-1");
 	}
 
+	@Override
+	public Object deleteFeedback(Integer id) throws Exception {
+		jdbcCall = new SimpleJdbcCall(template)
+				.withSchemaName("metcanteensys").withProcedureName("c_deleteFeedback");
+				
+		SqlParameterSource params = new MapSqlParameterSource()
+				 .addValue("inFeedbackID", id);
+				 
+		Map<String, Object> result = jdbcCall.execute(params);
+		
+		return result.get("#result-set-1");
+	}
+
 }

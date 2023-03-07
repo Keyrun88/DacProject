@@ -8,5 +8,6 @@ public interface FoodItemDAO {
 	Object getFoodItems() throws Exception;
 	Object addFoodItem(FoodItem param) throws Exception;
 	Object deleteFoodItem(Integer itemId) throws Exception;
+	Object updateFoodItem(FoodItem param) throws Exception;
 	
 }

@@ -32,7 +32,7 @@ function checkout(props) {
   };
 
 
-  
+
 
 
 
@@ -43,7 +43,7 @@ function checkout(props) {
           <CCard>
             <CCardHeader>
               Order Details
-          </CCardHeader>
+            </CCardHeader>
             <CCardBody>
               <CRow>
                 <CCol sm="4">
@@ -52,9 +52,7 @@ function checkout(props) {
                 </CCol>
                 <CCol sm="8">
                   Tea  Quantity
-            <CCol>
-
-
+                  <CCol>
 
                     <body>
                       <div className="btn-group mr-1" role="group" aria-label="Second group" >
@@ -74,7 +72,7 @@ function checkout(props) {
                 </CCol>
                 <CCol sm="8">
                   Coffee Quantity
-           <CCol>
+                  <CCol>
 
                     <body>
                       <div className="btn-group mr-1" role="group" aria-label="Second group" >
@@ -95,7 +93,7 @@ function checkout(props) {
           <CCard>
             <CCardHeader>
               PRICE DETAILS
-          </CCardHeader>
+            </CCardHeader>
             <CCardBody>
               <CCardText>
                 <CCol>
@@ -105,7 +103,7 @@ function checkout(props) {
             </CCardBody>
             <CCardFooter>
               Total Amount =
-          </CCardFooter>
+            </CCardFooter>
           </CCard>
         </CCol>
       </CRow>
