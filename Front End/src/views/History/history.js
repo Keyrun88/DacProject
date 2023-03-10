@@ -16,7 +16,7 @@ const History = () => {
     const getOrders = () => {
         getOrderByUserId(user.ID).then(rs => {
             getFeedback().then(feedback => {
-                debugger
+            
                 const tempOrder = rs.data
                 const feed = feedback.data
                 tempOrder.forEach(o => {
@@ -60,7 +60,7 @@ const History = () => {
 
     const giveFeedback = (order) => {
         setFeedbckData(order)
-        debugger
+    
         setVisible(true)
         
     }

@@ -28,7 +28,7 @@ const AddMenu = ({ visible, setVisible }) => {
     }
 
     const onAdd = () => {
-        debugger
+    
         if (!data.name || !data.category || !data.price) {
             Swal.fire({
                 title: "Warning",

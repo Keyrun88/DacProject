@@ -49,7 +49,6 @@ const ManagerDashboard = () => {
       setCancelledOrders(rs.data.filter(x => x.Status === 'cancelled').length)
       
       let count = 0
-      debugger
       rs.data.forEach(x => {
         if (x.Status === 'completed') {
           count += x.BillAmount

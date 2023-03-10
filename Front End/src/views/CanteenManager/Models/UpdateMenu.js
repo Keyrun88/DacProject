@@ -23,7 +23,7 @@ const UpdateMenu = ({ visible, setVisible, updateData, callBack }) => {
     }
 
     const onUpdate = () => {
-        debugger
+    
         if (!data.Name || !data.Category || !data.Price) {
             Swal.fire({
                 title: "Warning",
@@ -62,7 +62,7 @@ const UpdateMenu = ({ visible, setVisible, updateData, callBack }) => {
 
     useEffect(() => {
         if (updateData) {
-            debugger
+        
             setData(updateData)
         }
     }, [updateData])

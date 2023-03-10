@@ -73,7 +73,7 @@ const OrderFood = () => {
     }
 
     const filterByType = (type) => {
-        debugger
+    
         const temp = foodItemsCopy.filter(x => x.Category === type)
         setFoodItems(temp)
     }

@@ -35,7 +35,7 @@ const Menu = () => {
             cancelButtonText: "No, cancel please!",
         }).then(rs => {
             if (rs.isConfirmed) {
-                debugger
+            
                 deleteFoodItem(x.ItemID).then(rs => {
                     Swal.fire({
                         title: "Success",

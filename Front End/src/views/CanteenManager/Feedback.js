@@ -25,7 +25,6 @@ const Feedback = () => {
             cancelButtonText: "No, cancel please!",
         }).then(rs => {
             if (rs.isConfirmed) {
-                debugger
                 deleteFeedback(x.FeedbackId).then(rs => {
                     Swal.fire({
                         title: "Success",

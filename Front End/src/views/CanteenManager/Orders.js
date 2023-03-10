@@ -19,7 +19,7 @@ const Orders = () => {
             currOrder.forEach(x => {
                 x.DateAndTime = new Date(x.DateAndTime).toLocaleTimeString() + ", " + new Date(x.DateAndTime).toDateString()
             })
-            debugger
+        
             setCompletedOrders(complOrder)
             setCurrentOrders(currOrder)
         }).catch(err => {

@@ -65,7 +65,6 @@ const Login = () => {
     })
 
     if (email) {
-      debugger
       forgotPassword(email).then(async rs => {
         if (rs.data.length) {
           const { value: answer } = await Swal.fire({
