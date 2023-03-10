@@ -42,6 +42,22 @@ const OrderFood = () => {
         }, 200);
     }
 
+    const onDeleteItem = (item) => {
+        setFoodItems([])
+        setFoodItemsCopy([])
+        const temp = foodItems
+        temp.forEach(x => {
+            if (x.ItemID === item.ItemID) {
+                x.isAddedTocart = false
+                x.Quantity = 0
+            }
+        })
+        setTimeout(() => {
+            setFoodItems(temp)
+            setFoodItemsCopy(temp)
+        }, 200);
+    }
+
     const loadData = () => {
         getFoodItems().then(rs => {
             setFoodItems(rs.data)
@@ -176,7 +192,8 @@ const OrderFood = () => {
                                         <span className="text-secondary"> {x.Category} </span>
                                     </CCardText>
                                     <CFormInput type="number" placeholder="Quantity" defaultValue={x.Quantity} onChange={e => x.Quantity = e.target.value} />
-                                    <CButton className="w-100 my-1" color="warning" onClick={() => onAddItem(x)} disabled={x.isAddedTocart} >{x.isAddedTocart ? "Added to cart" : "Add Item to cart"}</CButton>
+                                    {!x.isAddedTocart ? <CButton className="w-100 my-1" color="warning" onClick={() => onAddItem(x)} > Added to cart</CButton> :
+                                    <CButton className="w-100 my-1" color="warning" onClick={() => onDeleteItem(x)} >Remove From Cart</CButton>}
                                 </CCardBody>
                             </CCard>))}
                     </CRow> : <h4 className="text-center">No item found</h4>}
@@ -208,7 +225,7 @@ const OrderFood = () => {
                                         </CRow>
                                     })}
 
-
+                                    <CButton onClick={e => navigate("/order-food/1")}>Back</CButton>
                                 </CCardBody>
                             </CCard>
                         </CCol>

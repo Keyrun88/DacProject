@@ -74,7 +74,7 @@ const ManagerDashboard = () => {
         sum += x.Rating * (index + 1);
       });
 
-      setTotalRating(sum/count)
+      setTotalRating(Math.round(sum/count))
     })
 
   }
