@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
 
 const DefaultLayout = () => {
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     if (!localStorage.getItem("user")) {
       navigate("/login")
     } else {
-      if (JSON.parse(localStorage.getItem("user")).IsCanteenManager) {
-        navigate("/canteen-manager")
-      } else {
-        navigate("/order-food/1")
-      }
+      navigate(location.pathname)
+      // if (JSON.parse(localStorage.getItem("user")).IsCanteenManager) {
+      //   navigate("/canteen-manager")
+      // } else {
+      //   navigate("/order-food/1")
+      // }
     }
   }, [])
 

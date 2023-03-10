@@ -15,7 +15,7 @@ const OrderDetails = React.lazy(() => import('./views/OrderFood/OrderDetails'))
 
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  // { path: '/', exact: true, name: 'Home' },
   { path: '/order-food/:id', name: 'Order Food', element: OrderFood },
   { path: '/canteen-manager', name: 'Canteen Manager Dashboard', element: ManagerDashboard },
   { path: '/canteen-orders', name: 'Canteen Orders', element: CanteenManagerOrders },
