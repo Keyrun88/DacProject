@@ -3,7 +3,6 @@ package com.api.METCanteen;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication
 public class METCanteen {
 
@@ -11,4 +10,4 @@ public class METCanteen {
 		SpringApplication.run(METCanteen.class, args);
 	}
 
-}
+} 

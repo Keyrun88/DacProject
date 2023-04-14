@@ -1,5 +1,6 @@
 package com.api.METCanteen.Model;
 
+
 public class Users {
 	
 	private String FirstName;
@@ -11,17 +12,18 @@ public class Users {
 	private Boolean isCanteenManager;
 	private Boolean isStaffMember;
 	
-	public Boolean getIsCanteenManager() {
-		return isCanteenManager;
+	
+	public String getFirstName() {
+		return FirstName;
 	}
-	public void setIsCanteenManager(Boolean isCanteenManager) {
-		this.isCanteenManager = isCanteenManager;
+	public void setFirstName(String firstName) {
+		FirstName = firstName;
 	}
-	public Boolean getIsStaffMember() {
-		return isStaffMember;
+	public String getLastName() {
+		return LastName;
 	}
-	public void setIsStaffMember(Boolean isStaffMember) {
-		this.isStaffMember = isStaffMember;
+	public void setLastName(String lastName) {
+		LastName = lastName;
 	}
 	public String getEmail() {
 		return Email;
@@ -35,34 +37,31 @@ public class Users {
 	public void setPassword(String password) {
 		Password = password;
 	}
-	public String getAnswer() {
-		return Answer;
-	}
-	public void setAnswer(String answer) {
-		Answer = answer;
-	}
 	public String getQuestion() {
 		return Question;
 	}
 	public void setQuestion(String question) {
 		Question = question;
 	}
-	public String getFirstName() {
-		return FirstName;
+	public String getAnswer() {
+		return Answer;
 	}
-	public void setFirstName(String firstName) {
-		FirstName = firstName;
+	public void setAnswer(String answer) {
+		Answer = answer;
 	}
-	public String getLastName() {
-		return LastName;
+	public Boolean getIsCanteenManager() {
+		return isCanteenManager;
 	}
-	@Override
-	public String toString() {
-		return "Users [FirstName=" + FirstName + ", LastName=" + LastName + ", Email=" + Email + ", Password="
-				+ Password + ", Question=" + Question + ", Answer=" + Answer + "]";
+	public void setIsCanteenManager(Boolean isCanteenManager) {
+		this.isCanteenManager = isCanteenManager;
 	}
-	public void setLastName(String lastName) {
-		LastName = lastName;
+	public Boolean getIsStaffMember() {
+		return isStaffMember;
 	}
+	public void setIsStaffMember(Boolean isStaffMember) {
+		this.isStaffMember = isStaffMember;
+	}
+	
+	
 	
 }

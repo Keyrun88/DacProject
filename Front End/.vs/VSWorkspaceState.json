@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\services",
+    "\\src\\shared",
+    "\\src\\views",
+    "\\src\\views\\History"
   ],
+  "SelectedNode": "\\src\\shared\\BaseConfig.js",
   "PreviewInSolutionExplorer": false
 }
